@@ -43,22 +43,19 @@ class GalleryFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_gallery, container, false)
-        Log.d(TAG, "onCreateView: 到这里了")
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val mAdapter = galleryViewModel.photoListLive.value?.let { GalleryAdapter(it) }
+        val mAdapter = GalleryAdapter()
         galleryViewModel.photoListLive.observe(viewLifecycleOwner, {
-            Log.d(TAG, "onActivityCreated: 监听到数据改变")
             Log.d(TAG, "onActivityCreated: ${it.toString()}")
-            mAdapter?.photoItems = it
-            mAdapter?.notifyDataSetChanged()
+            mAdapter.photoItems = it
+            mAdapter.notifyDataSetChanged()
             binding.swipeLayoutGallery.isRefreshing = false
         })
         galleryViewModel.photoListLive.value?:galleryViewModel.fetchData()
-        Log.d(TAG, "onActivityCreated: 加载数据")
         binding.recyclerView.apply {
             adapter = mAdapter
             layoutManager = GridLayoutManager(requireContext(),2)

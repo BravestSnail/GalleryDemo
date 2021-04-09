@@ -1,6 +1,7 @@
 package com.example.gallerydemo
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.gallerydemo.databinding.GalleryCellBinding
 
-class GalleryAdapter(var photoItems: List<PhotoItem>) : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>(){
+class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>(){
     inner class MyViewHolder(var binding: GalleryCellBinding) : RecyclerView.ViewHolder(binding.root){
 
     }
@@ -31,6 +32,9 @@ class GalleryAdapter(var photoItems: List<PhotoItem>) : RecyclerView.Adapter<Gal
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val bind = DataBindingUtil.bind<GalleryCellBinding>(holder.itemView)
+
+        
         val photoItem = photoItems[position]
         holder.binding.shimmerCellLayout.apply {
             setShimmerColor(0x55FFFFFF)
