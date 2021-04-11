@@ -2,10 +2,8 @@ package com.example.gallerydemo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -64,6 +62,21 @@ class GalleryFragment : Fragment() {
         binding.swipeLayoutGallery.setOnRefreshListener {
             galleryViewModel.fetchData()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.swipeIndicator -> {
+                binding.swipeLayoutGallery.isRefreshing = true
+                galleryViewModel.fetchData()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

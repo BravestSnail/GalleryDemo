@@ -1,6 +1,8 @@
 package com.example.gallerydemo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class Pixabey (
     val totalHits: Int,
@@ -31,11 +33,11 @@ data class Pixabey (
     }
 }
 
-data class PhotoItem(
+@Parcelize data class PhotoItem(
     @SerializedName("id")
     val photoId: Int,
     @SerializedName("webformatURL")
     val previewUrl: String,
     @SerializedName("largeImageURL")
     val fullUrl: String
-)
+): Parcelable

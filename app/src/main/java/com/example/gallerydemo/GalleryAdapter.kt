@@ -1,12 +1,14 @@
 package com.example.gallerydemo
 
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.cronet.CronetHttpStack
@@ -16,7 +18,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.gallerydemo.databinding.GalleryCellBinding
-
+val photoBundleName = "PHOTO"
 class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>(){
     inner class MyViewHolder(var binding: GalleryCellBinding) : RecyclerView.ViewHolder(binding.root){
 
@@ -27,7 +29,12 @@ class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) :
         val binding = DataBindingUtil.inflate<GalleryCellBinding>(LayoutInflater.from(
             parent.context),R.layout.gallery_cell,parent,false)
         val holder = MyViewHolder(binding)
-        holder.itemView.setOnClickListener {  }
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable(photoBundleName, photoItems[holder.adapterPosition])
+                holder.itemView.findNavController().navigate(R.id.action_galleryFragment_to_photoFragment,this)
+            }
+        }
         return holder
     }
 

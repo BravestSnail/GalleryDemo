@@ -33,4 +33,9 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         NavigationUI.setupActionBarWithNavController(this, findNavController(R.id.fragment))
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return super.onSupportNavigateUp() || findNavController(R.id.fragment).navigateUp()
+
+    }
 }
