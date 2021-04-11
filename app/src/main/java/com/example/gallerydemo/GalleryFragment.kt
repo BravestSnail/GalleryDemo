@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gallerydemo.databinding.FragmentGalleryBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,7 +57,7 @@ class GalleryFragment : Fragment() {
         galleryViewModel.photoListLive.value?:galleryViewModel.fetchData()
         binding.recyclerView.apply {
             adapter = mAdapter
-            layoutManager = GridLayoutManager(requireContext(),2)
+            layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         }
 
         binding.swipeLayoutGallery.setOnRefreshListener {
