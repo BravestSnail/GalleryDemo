@@ -10,7 +10,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="4dp"
+        app:cardCornerRadius="4dp">
 
         <io.supercharge.shimmerlayout.ShimmerLayout
             android:id="@+id/shimmerCellLayout"
