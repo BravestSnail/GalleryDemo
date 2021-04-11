@@ -49,8 +49,7 @@ class GalleryFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val mAdapter = GalleryAdapter()
         galleryViewModel.photoListLive.observe(viewLifecycleOwner, {
-            Log.d(TAG, "onActivityCreated: ${it.toString()}")
-            mAdapter.photoItems = it
+            mAdapter.submitList(it)
             mAdapter.notifyDataSetChanged()
             binding.swipeLayoutGallery.isRefreshing = false
         })

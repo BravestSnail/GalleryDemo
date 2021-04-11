@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.cronet.CronetHttpStack
@@ -19,7 +20,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.gallerydemo.databinding.GalleryCellBinding
 val photoBundleName = "PHOTO"
-class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>(){
+val photoPos = "PHOTO_POSITION"
+class GalleryAdapter : ListAdapter<PhotoItem,GalleryAdapter.MyViewHolder>(DiffCallBack){
     inner class MyViewHolder(var binding: GalleryCellBinding) : RecyclerView.ViewHolder(binding.root){
 
     }
@@ -31,8 +33,12 @@ class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) :
         val holder = MyViewHolder(binding)
         holder.itemView.setOnClickListener {
             val bundle = Bundle().apply {
-                putParcelable(photoBundleName, photoItems[holder.adapterPosition])
-                holder.itemView.findNavController().navigate(R.id.action_galleryFragment_to_photoFragment,this)
+//                putParcelable(photoBundleName, photoItems[holder.adapterPosition])
+//                holder.itemView.findNavController().navigate(R.id.action_galleryFragment_to_photoFragment,this)
+                putParcelableArrayList(photoBundleName, ArrayList(currentList))
+                putInt(photoPos, holder.adapterPosition)
+                holder.itemView.findNavController().navigate(R.id.action_galleryFragment_to_photoPagerFragment,this)
+
             }
         }
         return holder
@@ -42,7 +48,7 @@ class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) :
         val bind = DataBindingUtil.bind<GalleryCellBinding>(holder.itemView)
 
         
-        val photoItem = photoItems[position]
+        val photoItem = getItem(position)
         holder.binding.shimmerCellLayout.apply {
             setShimmerColor(0x55FFFFFF)
             setShimmerAngle(0)
@@ -77,6 +83,14 @@ class GalleryAdapter(var photoItems: List<PhotoItem> = ArrayList<PhotoItem>()) :
             .into(holder.binding.imageView)
     }
 
-    override fun getItemCount() = photoItems.size
+    object DiffCallBack : DiffUtil.ItemCallback<PhotoItem>(){
+        override fun areItemsTheSame(oldItem: PhotoItem, newItem: PhotoItem): Boolean {
+            return oldItem === newItem
+        }
 
+        override fun areContentsTheSame(oldItem: PhotoItem, newItem: PhotoItem): Boolean {
+            return oldItem.photoId == newItem.photoId
+        }
+
+    }
 }

@@ -5,22 +5,38 @@
     android:id="@+id/navigation"
     app:startDestination="@id/galleryFragment">
 
+<!--    <fragment-->
+<!--        android:id="@+id/galleryFragment"-->
+<!--        android:name="com.example.gallerydemo.GalleryFragment"-->
+<!--        android:label="Gallery"-->
+<!--        tools:layout="@layout/fragment_gallery">-->
+<!--        <action-->
+<!--            android:id="@+id/action_galleryFragment_to_photoFragment"-->
+<!--            app:destination="@id/photoFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/photoFragment"-->
+<!--        android:name="com.example.gallerydemo.PhotoFragment"-->
+<!--        android:label="Photo"-->
+<!--        tools:layout="@layout/fragment_photo">-->
+<!--        <action-->
+<!--            android:id="@+id/action_photoFragment_to_galleryFragment"-->
+<!--            app:destination="@id/galleryFragment" />-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.example.gallerydemo.GalleryFragment"
-        android:label="Gallery"
-        tools:layout="@layout/fragment_gallery">
+        android:label="Gallery" >
         <action
-            android:id="@+id/action_galleryFragment_to_photoFragment"
-            app:destination="@id/photoFragment" />
+            android:id="@+id/action_galleryFragment_to_photoPagerFragment"
+            app:destination="@id/photoPagerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/photoFragment"
-        android:name="com.example.gallerydemo.PhotoFragment"
-        android:label="Photo"
-        tools:layout="@layout/fragment_photo">
+        android:id="@+id/photoPagerFragment"
+        android:name="com.example.gallerydemo.PhotoPagerFragment"
+        android:label="PhotoPager">
         <action
-            android:id="@+id/action_photoFragment_to_galleryFragment"
+            android:id="@+id/action_photoPagerFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
     </fragment>
 </navigation>
