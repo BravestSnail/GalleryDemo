@@ -39,5 +39,19 @@ data class Pixabey (
     @SerializedName("webformatURL")
     val previewUrl: String,
     @SerializedName("largeImageURL")
-    val fullUrl: String
+    val fullUrl: String,
+    @SerializedName("webformatHeight")
+    val photoWebHeight: Int,
+    @SerializedName("imageHeight")
+    val photoHeight: Int,
+    @SerializedName("imageWidth")
+    val photoWidth: Int,
+    @SerializedName("views")
+    val views: Int,
+    @SerializedName("likes")
+    val likes: Int,
+    @SerializedName("favorites")
+    val favorites: Int,
+    @SerializedName("user")
+    val user: String
 ): Parcelable

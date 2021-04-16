@@ -13,18 +13,86 @@
         android:layout_margin="4dp"
         app:cardCornerRadius="4dp">
 
-        <io.supercharge.shimmerlayout.ShimmerLayout
-            android:id="@+id/shimmerCellLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shimmerCellLayout"
+                tools:text="@string/textview" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewUser"
+                app:srcCompat="@drawable/ic_like"
+                tools:srcCompat="@drawable/ic_like"
+                android:contentDescription="@string/todo" />
+
+            <io.supercharge.shimmerlayout.ShimmerLayout
+                android:id="@+id/shimmerCellLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/backgrand_img"
-                tools:srcCompat="@tools:sample/avatars" />
-        </io.supercharge.shimmerlayout.ShimmerLayout>
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/backgrand_img"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+            </io.supercharge.shimmerlayout.ShimmerLayout>
+
+            <TextView
+                android:id="@+id/textViewLikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewLike"
+                app:layout_constraintStart_toEndOf="@+id/imageViewLike"
+                app:layout_constraintTop_toTopOf="@+id/imageViewLike"
+                tools:text="@string/textview" />
+
+            <ImageView
+                android:id="@+id/imageViewFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewLike"
+                app:layout_constraintStart_toEndOf="@+id/textViewLikes"
+                app:layout_constraintTop_toTopOf="@+id/imageViewLike"
+                app:srcCompat="@drawable/ic_favorite"
+                android:contentDescription="@string/todo" />
+
+            <TextView
+                android:id="@+id/textViewFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewLike"
+                app:layout_constraintStart_toEndOf="@+id/imageViewFavorite"
+                app:layout_constraintTop_toTopOf="@+id/imageViewLike"
+                tools:text="@string/textview" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 </layout>

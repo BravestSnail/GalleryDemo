@@ -45,17 +45,23 @@ class GalleryAdapter : ListAdapter<PhotoItem,GalleryAdapter.MyViewHolder>(DiffCa
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val bind = DataBindingUtil.bind<GalleryCellBinding>(holder.itemView)
-
-        
+        DataBindingUtil.bind<GalleryCellBinding>(holder.itemView)
         val photoItem = getItem(position)
-        holder.binding.shimmerCellLayout.apply {
-            setShimmerColor(0x55FFFFFF)
-            setShimmerAngle(0)
-            startShimmerAnimation()
+        holder.binding.apply {
+            textViewUser.text = photoItem.user
+            textViewLikes.text = photoItem.likes.toString()
+            textViewFavorites.text = photoItem.favorites.toString()
+            imageView.layoutParams.height = photoItem.photoWebHeight
+            shimmerCellLayout.apply {
+                setShimmerColor(0x55FFFFFF)
+                setShimmerAngle(0)
+                startShimmerAnimation()
+            }
         }
+
         Glide.with(holder.itemView)
             .load(photoItem.previewUrl)
+            .centerCrop()
             .placeholder(R.drawable.ic_photo_backgrand_24)
             .listener(object : RequestListener<Drawable>{
                 override fun onLoadFailed(

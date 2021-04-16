@@ -1,13 +1,28 @@
 package com.example.gallerydemo
 
+import android.content.ContentValues
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.example.gallerydemo.databinding.FragmentPhotoPagerBinding
+import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,16 +63,45 @@ class PhotoPagerFragment : Fragment() {
         PhotoAdapter().apply {
             submitList(photoList)
             binding.viewPager.adapter = this
+            binding.viewPager.currentItem = position
         }
-        binding.pageTextView.text = "${position + 1}/${photoList?.size}"
+        binding.pageTextView.text = getString(R.string.photo_page, position+1, photoList?.size)
         binding.viewPager.apply {
-            currentItem = position
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    binding.pageTextView.text = "${position + 1}/${photoList?.size}"
+                    binding.pageTextView.text = getString(R.string.photo_page, position+1, photoList?.size)
                 }
             })
+        }
+        binding.saveButton.setOnClickListener {
+            Log.d(TAG, "onActivityCreated: 点击了")
+            Glide.with(requireContext())
+                    .load(photoList?.get(binding.viewPager.currentItem)?.fullUrl)
+                    .into(object : CustomTarget<Drawable>(){
+                        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                            val bitmap = (resource as BitmapDrawable).bitmap
+                            savePhoto(bitmap)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                        }
+                    })
+        }
+    }
+
+    fun savePhoto(bitmap: Bitmap) {
+        val saveUri = requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                ContentValues())?: kotlin.run {
+            Toast.makeText(requireContext(), "存储失败", Toast.LENGTH_SHORT).show()
+            return
+        }
+        requireContext().contentResolver.openOutputStream(saveUri).use {
+            if (bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it)){
+                Toast.makeText(requireContext(), "存储成功", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(requireContext(), "存储失败", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -73,7 +117,7 @@ class PhotoPagerFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PhotoFragment().apply {
+            PhotoPagerFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
